@@ -42,12 +42,14 @@ def submit_job(b):
         return
     
     command = prepare_command()
+    print("submitting job:" +command)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     jobid = out.decode('UTF-8').split('\n')[0]
-    
+    print(out.decode('UTF-8'))
     proc = subprocess.Popen([clustalo_cmd + ' --status --jobid '+ jobid], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
+    print(out.decode('UTF-8'))
     status = out.decode('UTF-8').split('\n')[1]
     print ('Jobid: '+jobid)
     
@@ -74,16 +76,14 @@ def check_email():
 output.capture()
 def check_file():
     file_path = seq_file_input.selected
-    if os.path.isfile(file_path) and os.access(file_path, os.R_OK):
+    if file_path and os.path.isfile(file_path) and os.access(file_path, os.R_OK):
         return True
     else:
         print("Either the file is missing or not readable")
         return False
 
 def prepare_command():
-    command = clustalo_cmd + '--email '+email_input.value + ' --stype ' +sequence_type.value + ' --sequence ' + seq_file_input.selected
-    append_outfile();
-    
+    command = clustalo_cmd + '--email '+email_input.value + ' --stype ' +sequence_type.value + ' --sequence ' + seq_file_input.selected  
     command += ' --asyncjob'
     return command
 

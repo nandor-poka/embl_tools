@@ -1,15 +1,19 @@
-__name__ = 'clustal_ui'
+__name__ = 'clustalO_ui'
 import ipywidgets as widgets
 from IPython.display import display
 import subprocess
 from time import sleep
 import re
 import os
+from ipyfilechooser import FileChooser
 clustalo_cmd = 'python3 ../embl_client/clustalo.py '
 style = {'description_width': 'initial'}
 
 #Defining UI elements / widgets
 app_label = widgets.Label(value='EMBL-Tools ClustalO webservice')
+
+# Widgets for mandatory information
+mandatory_label = widgets.Label(value='Mandatory options')
 email_input = widgets.Text(value='', placeholder='email address (mandatory)', description='Email (mandatory):',style = style )
 
 sequence_type = widgets.Dropdown(
@@ -18,12 +22,16 @@ sequence_type = widgets.Dropdown(
     description='Sequence type:',
     style = style
 )
-
-seq_file_input = widgets.Text(description = 'Sequence file path',style = style, disabled = False)
-
+#seq_file_input = widgets.Text(description = 'Sequence file path',style = style, disabled = False)
+seq_file_input = FileChooser('./', title = 'Sequence file path',style = style, disabled = False)
+seq_file_input.use_dir_icons = True
 submit = widgets.Button(description='Submit',disabled=False, button_style='', tooltip='Submit job',style = style, icon='check')
-
 output = widgets.Output(layout={'border': '1px solid black'})
+
+# Widgets for optional options
+optional_label = widgets.Label(value='Extra options')
+output_file_name = widgets.Text(description = 'Save result as: ',style = style, disabled = False)
+
 
 #Callback for the submitbutton
 @output.capture()
@@ -32,24 +40,25 @@ def submit_job(b):
         return
     if not check_file():
         return
-    proc = subprocess.Popen([clustalo_cmd + ' --email '+email_input.value+' --stype '+sequence_type.value+' --sequence '+ seq_file_input.value+' --asyncjob'], 
-                            stdout=subprocess.PIPE, shell=True)
+    
+    command = prepare_command()
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
-    jobid = out.decode("UTF-8").split('\n')[0]
+    jobid = out.decode('UTF-8').split('\n')[0]
     
     proc = subprocess.Popen([clustalo_cmd + ' --status --jobid '+ jobid], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
-    status = out.decode("UTF-8").split('\n')[1]
+    status = out.decode('UTF-8').split('\n')[1]
     print ('Jobid: '+jobid)
+    
     while status == 'RUNNING':
         sleep(5)
         proc = subprocess.Popen([clustalo_cmd + ' --status --jobid '+ jobid], stdout=subprocess.PIPE, shell=True)
         (out, err) = proc.communicate()
-        status = out.decode("UTF-8").split('\n')[1]
+        status = out.decode('UTF-8').split('\n')[1]
         print (status)
-    proc = subprocess.Popen([clustalo_cmd + ' --polljob --jobid '+ jobid + ' --outfile '+ jobid], stdout=subprocess.PIPE, shell=True)
-    (out, err) = proc.communicate()
-    print (out.decode("UTF-8"))
+    
+    fetch_result()
     
 @output.capture()
 def check_email():
@@ -64,16 +73,39 @@ def check_email():
 
 output.capture()
 def check_file():
-    file_path = seq_file_input.value
+    file_path = seq_file_input.selected
     if os.path.isfile(file_path) and os.access(file_path, os.R_OK):
         return True
     else:
         print("Either the file is missing or not readable")
         return False
-    
-submit.on_click(submit_job)
 
-center_container = widgets.HBox([email_input, seq_file_input, sequence_type, submit])
+def prepare_command():
+    command = clustalo_cmd + '--email '+email_input.value + ' --stype ' +sequence_type.value + ' --sequence ' + seq_file_input.selected
+    append_outfile();
+    
+    command += ' --asyncjob'
+    return command
+
+def append_outfile(cmd):
+    command = cmd
+    if output_file_name.value:
+        command += ' --outfile '+ output_file_name.value
+    else:
+        command += ' --outfile ' + jobid
+    return command
+
+def fetch_result():
+    command = clustalo_cmd + ' --polljob --jobid '+ jobid
+    command = append_outfile(command)
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+    (out, err) = proc.communicate()
+    print (out.decode('UTF-8'))
+
+submit.on_click(submit_job)
+mandatory_options = widgets.VBox([mandatory_label, email_input, sequence_type, seq_file_input, submit])
+optional_options = widgets.VBox([optional_label, output_file_name])
+center_container = widgets.HBox([mandatory_options, optional_options])
 
 app_layout = widgets.AppLayout(
     header= app_label,
@@ -83,9 +115,4 @@ app_layout = widgets.AppLayout(
     footer = output
 )
 
-#display(email_input)
-#display(seq_file_input)
-#display(sequence_type)
-#display(submit)
-#display(output)
 display(app_layout)

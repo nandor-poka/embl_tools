@@ -6,7 +6,7 @@ from time import sleep
 import re
 import os
 
-service_cmd ="python3 ../embl_client/ncbiblast.py"
+service_cmd ="python3 embl_client/ncbiblast.py"
 style = {'description_width': 'initial'}
 
 #Defining UI elements / widgets
@@ -55,7 +55,7 @@ def submit_job(b):
         status = out.decode('UTF-8').split('\n')[1]
         print (status)
     
-    fetch_result()
+    fetch_result(jobid)
 
 # This can stay as is, checks if email is valid
 @output.capture()
@@ -84,7 +84,7 @@ def append_outfile(cmd):
         command += ' --outfile ' + jobid
     return command
 
-def fetch_result():
+def fetch_result(jobid):
     command = service_cmd + ' --polljob --jobid '+ jobid
     command = append_outfile(command)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)

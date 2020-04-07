@@ -6,7 +6,7 @@ from time import sleep
 import re
 import os
 
-service_cmd ="python3 ../embl_client/service.py" # TODO replace service.py with real embl client python file name.
+service_cmd ="python3 embl_client/service.py" # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.
 style = {'description_width': 'initial'}
 
 

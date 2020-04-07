@@ -6,7 +6,7 @@ from time import sleep
 import re
 import os
 from ipyfilechooser import FileChooser
-clustalo_cmd = 'python3 ../embl_client/clustalo.py '
+clustalo_cmd = 'python3 embl_client/clustalo.py '
 style = {'description_width': 'initial'}
 
 #Defining UI elements / widgets
@@ -47,6 +47,7 @@ def submit_job(b):
     (out, err) = proc.communicate()
     jobid = out.decode('UTF-8').split('\n')[0]
     print(out.decode('UTF-8'))
+    
     proc = subprocess.Popen([clustalo_cmd + ' --status --jobid '+ jobid], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     print(out.decode('UTF-8'))
@@ -60,7 +61,7 @@ def submit_job(b):
         status = out.decode('UTF-8').split('\n')[1]
         print (status)
     
-    fetch_result()
+    fetch_result(jobid)
     
 @output.capture()
 def check_email():
@@ -95,10 +96,10 @@ def append_outfile(cmd):
         command += ' --outfile ' + jobid
     return command
 
-def fetch_result():
+def fetch_result(jobid):
     command = clustalo_cmd + ' --polljob --jobid '+ jobid
     command = append_outfile(command)
-    proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+    proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     print (out.decode('UTF-8'))
 

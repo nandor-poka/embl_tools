@@ -104,7 +104,8 @@ app_layout = widgets.AppLayout(
     left=None,
     center = center_container,
     right= None,
-    footer = output
+    footer = None
 )
 
 display(app_layout)
+display(output)

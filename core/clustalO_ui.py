@@ -23,7 +23,7 @@ sequence_type = widgets.Dropdown(
     style = style
 )
 #seq_file_input = widgets.Text(description = 'Sequence file path',style = style, disabled = False)
-seq_file_input = FileChooser('./', title = 'Sequence file path',style = style, disabled = False)
+seq_file_input = FileChooser('./', title = 'Sequence file',style = style, disabled = False)
 seq_file_input.use_dir_icons = True
 submit = widgets.Button(description='Submit',disabled=False, button_style='', tooltip='Submit job',style = style, icon='check')
 output = widgets.Output(layout={'border': '1px solid black'})
@@ -31,7 +31,7 @@ output = widgets.Output(layout={'border': '1px solid black'})
 # Widgets for optional options
 optional_label = widgets.Label(value='Extra options')
 output_file_name = widgets.Text(description = 'Save result as: ',style = style, disabled = False)
-
+output_dir = FileChooser('./', title = 'Save output to',style = style, disabled = False)
 
 #Callback for the submitbutton
 @output.capture()
@@ -90,11 +90,18 @@ def prepare_command():
 
 def append_outfile(cmd):
     command = cmd
-    if output_file_name.value:
-        command += ' --outfile '+ output_file_name.value
+    outfile_str = None;
+    if output_dir.selected_path:
+        outfile_str = output_dir.selected_path
     else:
-        command += ' --outfile ' + jobid
-    return command
+        outfile_str = './'
+        
+    if output_file_name.value:
+        outfile_str += '/'+ output_file_name.value
+    else:
+        outfile_str += jobid
+        
+    return command + ' --outfile '+ outfile_str
 
 def fetch_result(jobid):
     command = clustalo_cmd + ' --polljob --jobid '+ jobid
@@ -105,7 +112,7 @@ def fetch_result(jobid):
 
 submit.on_click(submit_job)
 mandatory_options = widgets.VBox([mandatory_label, email_input, sequence_type, seq_file_input, submit])
-optional_options = widgets.VBox([optional_label, output_file_name])
+optional_options = widgets.VBox([optional_label, output_file_name,output_dir])
 center_container = widgets.HBox([mandatory_options, optional_options])
 
 app_layout = widgets.AppLayout(
@@ -113,7 +120,8 @@ app_layout = widgets.AppLayout(
     left=None,
     center = center_container,
     right= None,
-    footer = output
+    footer = None
 )
 
 display(app_layout)
+display(output)

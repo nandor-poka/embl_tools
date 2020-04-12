@@ -8,7 +8,7 @@ import os
 from ipyfilechooser import FileChooser
 clustalo_cmd = 'python3 embl_client/clustalo.py '
 style = {'description_width': 'initial'}
-
+fixed_width_layout = widgets.Layout(width='50%', min_width='50%',max_width='50%')
 #Defining UI elements / widgets
 app_label = widgets.Label(value='EMBL-Tools ClustalO webservice')
 
@@ -114,7 +114,8 @@ submit.on_click(submit_job)
 mandatory_options = widgets.VBox([mandatory_label, email_input, sequence_type, seq_file_input, submit])
 optional_options = widgets.VBox([optional_label, output_file_name,output_dir])
 center_container = widgets.HBox([mandatory_options, optional_options])
-
+mandatory_options.layout = fixed_width_layout
+optional_options.layout = fixed_width_layout
 app_layout = widgets.AppLayout(
     header= app_label,
     left=None,

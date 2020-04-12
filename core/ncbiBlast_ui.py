@@ -5,9 +5,16 @@ import subprocess
 from time import sleep
 import re
 import os
-
+fixed_width_layout = widgets.Layout(width='50%', min_width='50%',max_width='50%')
 service_cmd ="python3 embl_client/ncbiblast.py"
 style = {'description_width': 'initial'}
+blast_hints = { 'blastp': 'Mathces a protein query to a protein database.',
+                'blastn': 'Matches a nucleotide query to a nucleotide query',
+                'blastx':  'Compares a DNA query to a protein database, by translating the query sequence in the 6 possible frames,\n' 
+                           +'and comparing each against the database (3 reading frames from each strand of the DNA) searching.',
+                'tblastn': 'Compares a protein query to a DNA database, in the 6 possible frames of the database.',
+                'tblastx': 'Compares the protein encoded in a DNA query to the protein encoded in a DNA database,\n'
+                           +'in the 6*6 possible frames of both query and database sequences (Note that all the combinations of frames may have different scores).' }
 
 #Defining UI elements / widgets
 app_label = widgets.Label(value='EMBL-Tools NCBI BLAST+ webservice') # TODO replace with real application label text
@@ -17,8 +24,16 @@ mandatory_label = widgets.Label(value='Mandatory options')
 email_input = widgets.Text(value='', placeholder='email address (mandatory)', description='Email (mandatory):',style = style )
 
 #add more widgets as you need below this line
-
-
+BLAST_program = widgets.Dropdown(
+    options = [('blastp','blastp'), ('blastn', 'blastn'),
+               ('blastx', 'blastx'),('tblastx', 'tblastx'),
+               ('tblastn', 'tblastn')],
+    value='blastp',
+    description='BLAST program:',
+    style = style
+)
+#LAST_program_hint = widgets.Label(value= blast_hints[BLAST_program.value], layout = widgets.Layout(display="flex", overflow='auto', height='4em'))
+BLAST_program_hint = widgets.HTML(value= '<style>p{word-wrap: break-word}</style> <p>'+blast_hints[BLAST_program.value]+' </p>')
 # predefined submit and output
 submit = widgets.Button(description='Submit',disabled=False, button_style='', tooltip='Submit job',style = style, icon='check')
 output = widgets.Output(layout={'border': '1px solid black'})
@@ -92,11 +107,18 @@ def fetch_result(jobid):
     print (out.decode('UTF-8'))
 
 submit.on_click(submit_job)
-                             
-# Define layout                             
-mandatory_options = widgets.VBox([mandatory_label, email_input, submit])
+
+def blast_hint(change):
+    BLAST_program_hint.value = value= '<style>p{word-wrap: break-word}</style> <p>'+blast_hints[change['new']]+'</p>'
+BLAST_program.observe(blast_hint, names='value')
+# Define layout   
+
+mandatory_options = widgets.VBox([mandatory_label, email_input, BLAST_program, BLAST_program_hint, submit])
 optional_options = widgets.VBox([optional_label])
 center_container = widgets.HBox([mandatory_options, optional_options])
+mandatory_options.layout = fixed_width_layout
+optional_options.layout = fixed_width_layout
+
 
 app_layout = widgets.AppLayout(
     header= app_label,

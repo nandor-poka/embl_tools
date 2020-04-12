@@ -8,7 +8,7 @@ import os
 
 service_cmd ="python3 embl_client/service.py" # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.
 style = {'description_width': 'initial'}
-
+fixed_width_layout = widgets.Layout(width='50%', min_width='50%',max_width='50%')
 
 #Defining UI elements / widgets
 app_label = widgets.Label(value='EMBL-Tools Template webservice') # TODO replace with real application label text
@@ -98,6 +98,8 @@ submit.on_click(submit_job)
 mandatory_options = widgets.VBox([mandatory_label, email_input, submit])
 optional_options = widgets.VBox([optional_label])
 center_container = widgets.HBox([mandatory_options, optional_options])
+mandatory_options.layout = fixed_width_layout
+optional_options.layout = fixed_width_layout
 
 app_layout = widgets.AppLayout(
     header= app_label,

@@ -79,11 +79,19 @@ def prepare_command():
 # Util method to append correct outfile param
 def append_outfile(cmd):
     command = cmd
-    if output_file_name.value:
-        command += ' --outfile '+ output_file_name.value
+    outfile_str = None;
+    if output_dir.selected_path:
+        outfile_str = output_dir.selected_path
     else:
-        command += ' --outfile ' + jobid
-    return command
+        outfile_str = './'
+        
+    if output_file_name.value:
+        outfile_str += '/'+ output_file_name.value
+    else:
+        outfile_str += jobid
+        
+    return command + ' --outfile '+ outfile_str
+
 
 def fetch_result():
     command = service_cmd + ' --polljob --jobid '+ jobid
@@ -96,7 +104,7 @@ submit.on_click(submit_job)
                              
 # Define layout                             
 mandatory_options = widgets.VBox([mandatory_label, email_input, submit])
-optional_options = widgets.VBox([optional_label])
+optional_options = widgets.VBox([optional_label, output_file_name,output_dir])
 center_container = widgets.HBox([mandatory_options, optional_options])
 mandatory_options.layout = fixed_width_layout
 optional_options.layout = fixed_width_layout

@@ -74,7 +74,8 @@ output = widgets.Output(layout={'border': '1px solid black'})
 
 # Widgets  for optional options, add widgets as you need
 optional_label = widgets.Label(value='Extra options')
-
+output_file_name = widgets.Text(description = 'Save result as: ',style = style, disabled = False)
+output_dir = FileChooser('./', title = 'Save output to',style = style, disabled = False)
 
 # Mostly generic logic
 
@@ -84,8 +85,10 @@ def submit_job(b):
     if not check_email():
         return
     # add more checks here for early returns.
-    
+    if not check_file():
+        return
     command = prepare_command()
+    print("submitting job:" +command)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     jobid = out.decode('UTF-8').split('\n')[0]
@@ -116,20 +119,36 @@ def check_email():
         return False
     return True
 
+output.capture()
+def check_file():
+    file_path = seq_file_input.selected
+    if file_path and os.path.isfile(file_path) and os.access(file_path, os.R_OK):
+        return True
+    else:
+        print("Either the file is missing or not readable")
+        return False
+
 # modify as needed.
 def prepare_command():
-    command = service_cmd + '--email '+email_input.value # add more options as needed for the base command    
+    command = service_cmd + ' --email ' + email_input.value + ' --program '+ BLAST_program.value  + ' --stype ' + sequence_type.value + ' --sequence ' + seq_file_input.selected + ' --database ' + database_dropdown.value # add more options as needed for the base command    
     command += ' --asyncjob'
     return command
 
 # Util method to append correct outfile param
 def append_outfile(cmd):
     command = cmd
-    if output_file_name.value:
-        command += ' --outfile '+ output_file_name.value
+    outfile_str = None;
+    if output_dir.selected_path:
+        outfile_str = output_dir.selected_path
     else:
-        command += ' --outfile ' + jobid
-    return command
+        outfile_str = './'
+        
+    if output_file_name.value:
+        outfile_str += '/'+ output_file_name.value
+    else:
+        outfile_str += jobid
+        
+    return command + ' --outfile '+ outfile_str
 
 def fetch_result(jobid):
     command = service_cmd + ' --polljob --jobid '+ jobid
@@ -160,7 +179,7 @@ mandatory_options = widgets.VBox([mandatory_label,
                                   database_hint,
                                   seq_file_input,
                                   submit])
-optional_options = widgets.VBox([optional_label])
+optional_options = widgets.VBox([optional_label, output_file_name,output_dir])
 center_container = widgets.HBox([mandatory_options, optional_options])
 mandatory_options.layout = fixed_width_layout
 optional_options.layout = fixed_width_layout

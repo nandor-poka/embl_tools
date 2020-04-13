@@ -22,7 +22,7 @@ sequence_type = widgets.Dropdown(
     description='Sequence type:',
     style = style
 )
-#seq_file_input = widgets.Text(description = 'Sequence file path',style = style, disabled = False)
+
 seq_file_input = FileChooser('./', title = 'Sequence file',style = style, disabled = False)
 seq_file_input.use_dir_icons = True
 submit = widgets.Button(description='Submit',disabled=False, button_style='', tooltip='Submit job',style = style, icon='check')

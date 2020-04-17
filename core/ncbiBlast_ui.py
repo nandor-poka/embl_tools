@@ -27,6 +27,28 @@ values = databases_xml.getroot().find('values');
 for db in values:
     database_options.append((db.find('value').text, db.find('value').text))
     database_hints[db.find('value').text]=db.find('label').text
+
+# Checking if settings file exists and reading contents for default values to use.
+settings = None
+initLog = ''
+if os.path.exists('./settings.json'):
+    with open('./settings.json', 'r') as settingsFile:
+        settingsData = settingsFile.read()
+        settingsFile.close()
+        settings = json.loads(settingsData)
+    initLog += "Settings loaded.\n"
+    for setting in settings:
+        initLog += settings[setting]+'\n'
+    if not os.path.exists(settings['outdir']):
+        initLog += 'Default output directory does not exists. Attempting to create it.\n'
+        try:
+            os.makedirs(settings['outdir'])
+            initLog += settings['outdir'] + ' is created.\n'
+        except Exception as exception:
+            print (type(exception), exception)
+else:
+    initLog += 'No settings file found.\n'
+    
     
 #Defining UI elements / widgets
 app_label = widgets.Label(value='EMBL-Tools NCBI BLAST+ webservice') # TODO replace with real application label text
@@ -70,12 +92,14 @@ seq_file_input.use_dir_icons = True
 # predefined submit and output
 submit = widgets.Button(description='Submit',disabled=False, button_style='', tooltip='Submit job',style = style, icon='check')
 output = widgets.Output(layout={'border': '1px solid black'})
-
+with output:
+    print(initLog)
 
 # Widgets  for optional options, add widgets as you need
 optional_label = widgets.Label(value='Extra options')
 output_file_name = widgets.Text(description = 'Save result as: ',style = style, disabled = False)
-output_dir = FileChooser('./', title = 'Save output to',style = style, disabled = False)
+output_dir = FileChooser(settings['outdir'] if settings['outdir'] != None else '.', title = 'Save output to',style = style, disabled = False)
+output_dir.default_path = settings['outdir'] if settings['outdir'] != None else '.'
 
 # Mostly generic logic
 
@@ -92,11 +116,11 @@ def submit_job(b):
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     jobid = out.decode('UTF-8').split('\n')[0]
+    print ('Jobid: '+jobid)
     
     proc = subprocess.Popen([service_cmd + ' --status --jobid '+ jobid], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     status = out.decode('UTF-8').split('\n')[1]
-    print ('Jobid: '+jobid)
     
     while status == 'RUNNING':
         sleep(5)
@@ -135,24 +159,24 @@ def prepare_command():
     return command
 
 # Util method to append correct outfile param
-def append_outfile(cmd):
+def append_outfile(cmd, jobid):
     command = cmd
     outfile_str = None;
     if output_dir.selected_path:
         outfile_str = output_dir.selected_path
     else:
-        outfile_str = './'
+        outfile_str = output_dir.default_path
         
     if output_file_name.value:
         outfile_str += '/'+ output_file_name.value
     else:
-        outfile_str += jobid
+        outfile_str += '/'+ jobid
         
     return command + ' --outfile '+ outfile_str
 
 def fetch_result(jobid):
     command = service_cmd + ' --polljob --jobid '+ jobid
-    command = append_outfile(command)
+    command = append_outfile(command, jobid)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     print (out.decode('UTF-8'))

@@ -20,7 +20,7 @@ if os.path.exists('./settings.json'):
         settings = json.loads(settingsData)
     initLog += "Settings loaded.\n"
     for setting in settings:
-        initLog += settings[setting]+'\n'
+        initLog += setting +': '+settings[setting]+'\n'
     if not os.path.exists(settings['outdir']):
         initLog += 'Default output directory does not exists. Attempting to create it.\n'
         try:

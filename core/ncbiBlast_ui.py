@@ -1,10 +1,8 @@
 __name__ = 'ncbiBlast_ui' 
 import ipywidgets as widgets
 from IPython.display import display
-import subprocess
+import subprocess, re, os, json
 from time import sleep
-import re
-import os
 from ipyfilechooser import FileChooser
 import xml.etree.ElementTree as ET
 

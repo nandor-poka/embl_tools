@@ -1,10 +1,8 @@
 __name__ = 'template_ui' #rename this to real module name
 import ipywidgets as widgets
 from IPython.display import display
-import subprocess
+import subprocess, re, os, json
 from time import sleep
-import re
-import os
 from ipyfilechooser import FileChooser
 
 service_cmd ="python3 embl_client/service.py" # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.

@@ -1,146 +1,36 @@
-__name__ = 'template_ui' #rename this to real module name
-import ipywidgets as widgets
-from IPython.display import display
-import subprocess, re, os, json
-from time import sleep
-from ipyfilechooser import FileChooser
+import core._ui_base as gui
+__name__ = '_module_template'
+gui.service_cmd = 'python3 embl_client/service.py' # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.
+gui.app_label.value= 'EMBL-Tools webservice template gui' # TODO replace with real application label text
 
-service_cmd ="python3 embl_client/service.py" # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.
-style = {'description_width': 'initial'}
-fixed_width_layout = widgets.Layout(width='50%', min_width='50%',max_width='50%')
-
-# Checking if settings file exists and reading contents for default values to use.
-settings = None
-initLog = ''
-if os.path.exists('./settings.json'):
-    with open('./settings.json', 'r') as settingsFile:
-        settingsData = settingsFile.read()
-        settingsFile.close()
-        settings = json.loads(settingsData)
-    initLog += "Settings loaded.\n"
-    for setting in settings:
-        initLog += setting +': '+settings[setting]+'\n'
-    if not os.path.exists(settings['outdir']):
-        initLog += 'Default output directory does not exists. Attempting to create it.\n'
-        try:
-            os.makedirs(settings['outdir'])
-            initLog += settings['outdir'] + ' is created.\n'
-        except Exception as exception:
-            print (type(exception), exception)
-else:
-    initLog += 'No settings file found.\n'
+# Define more widgets and add them to guimandatory_options  or gui.optional_options
+# Add @gui.output.capture() to methods you want to have their output printed.
+# The submit button is the last widget in the mandatory_options, thus you should instert widgets before that.
+# It is recommended to insert any new widgets after the email field.
 
 
-#Defining UI elements / widgets
-app_label = widgets.Label(value='EMBL-Tools Template webservice') # TODO replace with real application label text
 
-# Widgets for mandatory information, starting with predefined label and email input
-mandatory_label = widgets.Label(value='Mandatory options')
-email_input = widgets.Text(value= settings['email'] if settings['email'] != None else '', placeholder='email address (mandatory)', description='Email (mandatory):',style = style )
-
-#add more widgets as you need below this line
-
-
-# predefined submit and output
-submit = widgets.Button(description='Submit',disabled=False, button_style='', tooltip='Submit job',style = style, icon='check')
-output = widgets.Output(layout={'border': '1px solid black'})
-
-
-# Widgets for optional options, add widgets as you need
-optional_label = widgets.Label(value='Extra options')
-output_file_name = widgets.Text(description = 'Save result as: ',style = style, disabled = False)
-output_dir = FileChooser(settings['outdir'] if settings['outdir'] != None else '.', title = 'Save output to',style = style, disabled = False)
-output_dir.default_path = settings['outdir'] if settings['outdir'] != None else '.'
-with output:
-    print(initLog)
-
-# Mostly generic logic
-
-#Callback for the submitbutton, TODO modify as needed
-@output.capture()
-def submit_job(b):
-    if not check_email():
-        return
-    # add more checks here for early returns.
-    
-    command = prepare_command()
-    proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    (out, err) = proc.communicate()
-    jobid = out.decode('UTF-8').split('\n')[0]
-    print ('Jobid: '+jobid)
-    
-    proc = subprocess.Popen([service_cmd + ' --status --jobid '+ jobid], stdout=subprocess.PIPE, shell=True)
-    (out, err) = proc.communicate()
-    status = out.decode('UTF-8').split('\n')[1]
-    
-    
-    while status == 'RUNNING':
-        sleep(5)
-        proc = subprocess.Popen([service_cmd + ' --status --jobid '+ jobid], stdout=subprocess.PIPE, shell=True)
-        (out, err) = proc.communicate()
-        status = out.decode('UTF-8').split('\n')[1]
-        print (status)
-    
-    fetch_result()
-
-# This can stay as is, checks if email is valid
-@output.capture()
-def check_email():
-    if "".__eq__(email_input.value):
-        print ("Email address is empty. Please fill in the email address field")
-        return False
-    email_match = re.match(r".*@*\..*", email_input.value)
-    if email_match == None:
-        print ("Email address is not valid. Please use <account_name>@<privder> format. Example: mail@example.com")
-        return False
-    return True
-
-# modify as needed.
+# Modify this method as needed to prepare the command to be executed
 def prepare_command():
-    command = service_cmd + '--email '+email_input.value # add more options as needed for the base command    
+    command = gui.service_cmd + '--email '+gui.email_input.value # add more options as needed for the base command    
     command += ' --asyncjob'
     return command
-
-# Util method to append correct outfile param
-def append_outfile(cmd, jobid):
-    command = cmd
-    outfile_str = None;
-    if output_dir.selected_path:
-        outfile_str = output_dir.selected_path
-    else:
-        outfile_str = output_dir.default_path
-        
-    if output_file_name.value:
-        outfile_str += '/'+ output_file_name.value
-    else:
-        outfile_str += '/'+ jobid
-        
-    return command + ' --outfile '+ outfile_str
+gui.prepare_command = prepare_command
 
 
-def fetch_result():
-    command = service_cmd + ' --polljob --jobid '+ jobid
-    command = append_outfile(command, jobid)
-    proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    (out, err) = proc.communicate()
-    print (out.decode('UTF-8'))
+mandatory_options =[]
+for widget in gui.mandatory_options.children:
+    mandatory_options.append(widget)
 
-submit.on_click(submit_job)
-                             
-# Define layout                             
-mandatory_options = widgets.VBox([mandatory_label, email_input, submit])
-optional_options = widgets.VBox([optional_label, output_file_name,output_dir])
-center_container = widgets.HBox([mandatory_options, optional_options])
-mandatory_options.layout = fixed_width_layout
-optional_options.layout = fixed_width_layout
+# Use the code below to insert widget just after email field.
+# mandatory_options.insert(2, widget_variable)
 
-app_layout = widgets.AppLayout(
-    header= app_label,
-    left=None,
-    center = center_container,
-    right= None,
-    footer = None
-)
+optional_options =[]
+for widget in gui.optional_options.children:
+    optional_options.append(widget)
 
-display(app_layout)
-display(output)
+# Append or insert widgets to the optional widgets list with append() or insert()    
+gui.mandatory_options.children = (mandatory_options)
+gui.optional_options.children = (optional_options)
+display(gui.app_layout)
+display(gui.output)

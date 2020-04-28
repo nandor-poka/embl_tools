@@ -1,11 +1,11 @@
-__name__ = 'template_ui' #rename this to real module name
+__name__ = '_ui_base' 
 import ipywidgets as widgets
 from IPython.display import display
 import subprocess, re, os, json
 from time import sleep
 from ipyfilechooser import FileChooser
 
-service_cmd ="python3 embl_client/service.py" # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.
+service_cmd =""
 style = {'description_width': 'initial'}
 fixed_width_layout = widgets.Layout(width='50%', min_width='50%',max_width='50%')
 
@@ -32,14 +32,13 @@ else:
 
 
 #Defining UI elements / widgets
-app_label = widgets.Label(value='EMBL-Tools Template webservice') # TODO replace with real application label text
+app_label = widgets.Label(value='') # TODO replace with real application label text
 
 # Widgets for mandatory information, starting with predefined label and email input
 mandatory_label = widgets.Label(value='Mandatory options')
 email_input = widgets.Text(value= settings['email'] if settings['email'] != None else '', placeholder='email address (mandatory)', description='Email (mandatory):',style = style )
-
-#add more widgets as you need below this line
-
+seq_file_input = FileChooser('./', title = 'Sequence file',style = style, disabled = False)
+seq_file_input.use_dir_icons = True
 
 # predefined submit and output
 submit = widgets.Button(description='Submit',disabled=False, button_style='', tooltip='Submit job',style = style, icon='check')
@@ -58,22 +57,21 @@ with output:
 
 #Callback for the submitbutton, TODO modify as needed
 @output.capture()
-def submit_job(b):
+def submit_job(button):
     if not check_email():
         return
     # add more checks here for early returns.
     
     command = prepare_command()
+    print('Executing: ', command)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     jobid = out.decode('UTF-8').split('\n')[0]
-    print ('Jobid: '+jobid)
-    
+    print('Jobid: '+jobid)
     proc = subprocess.Popen([service_cmd + ' --status --jobid '+ jobid], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     status = out.decode('UTF-8').split('\n')[1]
-    
-    
+        
     while status == 'RUNNING':
         sleep(5)
         proc = subprocess.Popen([service_cmd + ' --status --jobid '+ jobid], stdout=subprocess.PIPE, shell=True)
@@ -81,7 +79,7 @@ def submit_job(b):
         status = out.decode('UTF-8').split('\n')[1]
         print (status)
     
-    fetch_result()
+    fetch_result(jobid)
 
 # This can stay as is, checks if email is valid
 @output.capture()
@@ -97,8 +95,6 @@ def check_email():
 
 # modify as needed.
 def prepare_command():
-    command = service_cmd + '--email '+email_input.value # add more options as needed for the base command    
-    command += ' --asyncjob'
     return command
 
 # Util method to append correct outfile param
@@ -118,17 +114,18 @@ def append_outfile(cmd, jobid):
     return command + ' --outfile '+ outfile_str
 
 
-def fetch_result():
+def fetch_result(jobid):
     command = service_cmd + ' --polljob --jobid '+ jobid
     command = append_outfile(command, jobid)
-    proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+    proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     print (out.decode('UTF-8'))
+
 
 submit.on_click(submit_job)
                              
 # Define layout                             
-mandatory_options = widgets.VBox([mandatory_label, email_input, submit])
+mandatory_options = widgets.VBox([mandatory_label, email_input, seq_file_input, submit])
 optional_options = widgets.VBox([optional_label, output_file_name,output_dir])
 center_container = widgets.HBox([mandatory_options, optional_options])
 mandatory_options.layout = fixed_width_layout
@@ -142,5 +139,3 @@ app_layout = widgets.AppLayout(
     footer = None
 )
 
-display(app_layout)
-display(output)

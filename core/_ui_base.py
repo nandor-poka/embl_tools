@@ -58,7 +58,7 @@ with output:
 #Callback for the submitbutton, TODO modify as needed
 @output.capture()
 def submit_job(button):
-    if not check_email():
+    if not run_checks():
         return
     # add more checks here for early returns.
     
@@ -93,7 +93,16 @@ def check_email():
         return False
     return True
 
-# modify as needed.
+@output.capture()
+def check_file():
+    file_path = seq_file_input.selected
+    if file_path and os.path.isfile(file_path) and os.access(file_path, os.R_OK):
+        return True
+    else:
+        print("Either the input file is missing or not readable")
+        return False
+    
+# Should be overwritten by module.
 def prepare_command():
     return command
 
@@ -121,6 +130,9 @@ def fetch_result(jobid):
     (out, err) = proc.communicate()
     print (out.decode('UTF-8'))
 
+# Module template file overwrites this thus the final module can extend the number of checks applied.
+def run_checks():
+    return True
 
 submit.on_click(submit_job)
                              

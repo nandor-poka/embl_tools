@@ -8,7 +8,16 @@ gui.app_label.value= 'EMBL-Tools webservice template gui' # TODO replace with re
 # The submit button is the last widget in the mandatory_options, thus you should instert widgets before that.
 # It is recommended to insert any new widgets after the email field.
 
-
+# Append more checks as needed. Define your check functions in the file and call them here.
+# The method MUST only return true if all checks pass.
+# use @gui.output.capture() annotation for the check method to capture it's output.
+def run_checks():
+    if not gui.check_email():
+        return False
+    if not gui.check_file():
+        return False
+    return True
+gui.run_checks = run_checks
 
 # Modify this method as needed to prepare the command to be executed
 def prepare_command():

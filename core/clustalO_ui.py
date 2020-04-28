@@ -2,7 +2,7 @@ import core._ui_base as gui
 __name__ = 'clustalO_ui'
 
 gui.service_cmd = 'python3 embl_client/clustalo.py' 
-gui.app_label.value= 'EMBL-ToolsClustalO webservice'
+gui.app_label.value = 'EMBL-ToolsClustalO webservice'
 
 # Define more widgets and add them to guimandatory_options  or gui.optional_options
 # Add @gui.output.capture() to methods you want to have their output printed.
@@ -14,6 +14,15 @@ sequence_type = gui.widgets.Dropdown(
     description='Sequence type:',
     style = gui.style
 )
+
+def run_checks():
+    if not gui.check_email():
+        return False
+    if not gui.check_file():
+        return False
+    return True
+gui.run_checks = run_checks
+
 
 def prepare_command():
     command = gui.service_cmd + ' --email '+ gui.email_input.value + ' --stype ' +sequence_type.value + ' --sequence ' + gui.seq_file_input.selected  

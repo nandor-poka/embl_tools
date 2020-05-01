@@ -6,6 +6,9 @@
 
 Simple ui for EMBL webservices based on Jupyter Notebooks and ipywidgets.
 
+Uses work from: 
+
+Fábio Madeira, Young mi Park, Joon Lee, Nicola Buso, Tamer Gur, Nandana Madhusoodanan, Prasad Basutkar, Adrian R N Tivey, Simon C Potter, Robert D Finn, Rodrigo Lopez, The EMBL-EBI search and sequence analysis tools APIs in 2019, Nucleic Acids Research, Volume 47, Issue W1, 02 July 2019, Pages W636–W641, https://doi.org/10.1093/nar/gkz268
 ## Preview
 
 ![ClustalO preview](img/clustalo_preview.png)

@@ -1,5 +1,9 @@
 # EMBL Tools Jupyter Notebooks
 
+### Copyright (c) 2020, Dr. Nandor Poka
+
+### Distributed under the terms of the 3-clause BSD License.
+
 Simple ui for EMBL webservices based on Jupyter Notebooks and ipywidgets.
 
 ## Preview

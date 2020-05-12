@@ -1,7 +1,7 @@
 import core._ui_base as gui
 __name__ = 'clustalO_ui'
 
-gui.service_cmd = 'python3 embl_client/clustalo.py' 
+gui.service_cmd = 'python3 ../embl_client/clustalo.py' 
 gui.app_label.value = 'EMBL-ToolsClustalO webservice'
 
 # Define more widgets and add them to guimandatory_options  or gui.optional_options

@@ -1,6 +1,6 @@
 import core._ui_base as gui
 __name__ = '_module_template'
-gui.service_cmd = 'python3 embl_client/dbfetch.py getSupportedStyles' # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.
+gui.service_cmd = 'python3 ../embl_client/dbfetch.py getSupportedStyles' # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.
 gui.app_label.value= 'EMBL-Tools DBFetch - Retrieve entries from EMBOSS databases' # TODO replace with real application label text
 
 db_format_style_mapping={
@@ -77,7 +77,49 @@ db_format_style_mapping={
                'pubmedxml':['default','raw'],'ris':['default','raw'],'wordbibxml':['default','raw']},
     'mp':{'default':['default','html','raw'],'fasta':['default','html','raw']},
     'mpep':{'default':['default','html','raw'],'fasta':['default','html','raw']},
-    'mpro':{'default':['default','html','raw'],'fasta':['default','html','raw']}
+    'mpro':{'default':['default','html','raw'],'fasta':['default','html','raw']},
+    'nrnl1':{ 'default':['default','html','raw'],'annot':['default','html','raw'],
+            'entrysize':['default','html','raw'], 'nrnl1':['default','html','raw'],
+            'seqxml':['default','raw'], 'fasta':['default','html','raw']},
+    'nrnl2':{ 'default':['default','html','raw'],'annot':['default','html','raw'],
+            'entrysize':['default','html','raw'], 'nrnl2':['default','html','raw'],
+            'seqxml':['default','raw'], 'fasta':['default','html','raw']},
+    'nrpl1':{ 'default':['default','html','raw'],'annot':['default','html','raw'],
+            'entrysize':['default','html','raw'], 'nrnl2':['default','html','raw'],
+            'seqxml':['default','raw'], 'fasta':['default','html','raw']},
+    'nrpl2':{ 'default':['default','html','raw'],'annot':['default','html','raw'],
+            'entrysize':['default','html','raw'], 'nrnl2':['default','html','raw'],
+            'seqxml':['default','raw'], 'fasta':['default','html','raw']},
+    'patent_equivalents':{'default':['default','html','raw'], 'patent_equivalents':['default','html','raw']},
+    'pdb':{'default':['default','html','raw'],'fasta':['default','raw'],
+          'annot':['default','html','raw'],'mmcif':['default','raw'],
+          'pdb':['default','html','raw'],'pdbml':['default','raw']},
+    'refseqn':{'default':['default','html','raw'],'annot':['default','html','raw'],
+              'entrysize':['default','html','raw'],'fasta':['default','html','raw'],
+              'insdxml':['default','raw'],'refseqn':['default','html','raw'],
+              'seqxml':['default','raw'],'tinyseq':['default','raw']},
+    'refseqp':{'default':['default','html','raw'],'annot':['default','html','raw'],
+              'entrysize':['default','html','raw'],'fasta':['default','html','raw'],
+              'insdxml':['default','raw'],'refseqp':['default','html','raw'],
+              'seqxml':['default','raw'],'tinyseq':['default','raw']},
+    'taxonomy':{'default':['default','html','raw'], 'taxonomy':['default','html','raw'],
+               'enataxonomyxml':['default','raw'],
+                'uniprottaxonomyrdfxml':['default','raw']},
+    'uniparc':{'default':['default','raw'], 'fasta':['default','raw'],
+              'seqxml':['default','raw'],'uniparc':['default','raw'],
+              'uniprotrdfxml':['default','raw']},
+    'uniprotkb':{'default':['default','html','raw'],'fasta':['default','html','raw'],
+                'annot':['default','html','raw'], 'entrysize':['default','html','raw'],
+                'gff3':['default','html','raw'], 'seqxml':['default','raw'],
+                'uniprot':['default','html','raw'], 'uniprotrdfxml':['default','raw'],
+                'uniprotxml':['default','raw']},
+    'uniref100':{'default':['default','raw'],'fasta':['default','raw'],'seqxml':['default','raw'],'uniprotrdfxml':['default','raw'],'uniref100':['default','raw']},
+    'uniref50':{'default':['default','raw'],'fasta':['default','raw'],'seqxml':['default','raw'],'uniprotrdfxml':['default','raw'],'uniref50':['default','raw']},
+    'uniref90':{'default':['default','raw'],'fasta':['default','raw'],'seqxml':['default','raw'],'uniprotrdfxml':['default','raw'],'uniref100':['default','raw']},
+    'unisave':{'default':['default','raw'],'annot':['default','raw'],'entrysize':['default','html','raw'],'fasta':['default','raw'],'uniprot':['default','raw']},
+    'uspto_prt':{'default':['default','html','raw'],'annot':['default','html','raw'],'embl':['default','html','raw'],'entrysize':['default','html','raw'],'fasta':
+                 ['default','html','raw'],'seqxml':['default','html','raw']}
+    
 }
 # Define more widgets and add them to guimandatory_options  or gui.optional_options
 # Add @gui.output.capture() to methods you want to have their output printed.
@@ -140,7 +182,7 @@ format_type_dropdown = gui.widgets.Dropdown(
 style_dropdown =  gui.widgets.Dropdown(
     options = db_format_style_mapping[db_dropdown.value][format_type_dropdown.value],
     value= db_format_style_mapping[db_dropdown.value][format_type_dropdown.value][0],
-    description='Format',
+    description='Style',
     style = gui.style
 )
 

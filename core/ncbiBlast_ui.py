@@ -3,7 +3,7 @@ __name__ = 'ncbiBlast_ui'
 import xml.etree.ElementTree as ET
 
 # 'Global' variables used later
-gui.service_cmd ="python3 embl_client/ncbiblast.py"
+gui.service_cmd ="python3 ../embl_client/ncbiblast.py"
 blast_hints = { 'blastp': 'Mathces a protein query to a protein database.',
                 'blastn': 'Matches a nucleotide query to a nucleotide query',
                 'blastx':  'Compares a DNA query to a protein database, by translating the query sequence in the 6 possible frames,\n' 
@@ -13,8 +13,8 @@ blast_hints = { 'blastp': 'Mathces a protein query to a protein database.',
                            +'in the 6*6 possible frames of both query and database sequences (Note that all the combinations of frames may have different scores).' }
 database_options = []
 database_hints = {}
-
-databases_xml = ET.parse('core/ncbiBlast_databases.xml')
+_file_path = gui.os.path.dirname(__file__)
+databases_xml = ET.parse(_file_path+'/../core/ncbiBlast_databases.xml')
 values = databases_xml.getroot().find('values');
 for db in values:
     database_options.append((db.find('value').text, db.find('value').text))

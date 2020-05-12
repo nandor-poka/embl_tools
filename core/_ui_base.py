@@ -43,6 +43,9 @@ seq_file_input.use_dir_icons = True
 
 # predefined submit and output
 submit = widgets.Button(description='Submit',disabled=False, button_style='', tooltip='Submit job',style = style, icon='check')
+
+clearOutput_button = widgets.Button(description='Clear output',disabled=False, button_style='', tooltip='Clear output',style = style)
+
 output = widgets.Output(layout={'border': '1px solid black'})
 
 
@@ -102,7 +105,10 @@ def check_file():
     else:
         print("Either the input file is missing or not readable")
         return False
+def clear_output(button):
+    output.clear_output()
     
+
 # Should be overwritten by module.
 def prepare_command():
     return command
@@ -136,9 +142,10 @@ def run_checks():
     return True
 
 submit.on_click(submit_job)
+clearOutput_button.on_click(clear_output)
                              
 # Define layout                             
-mandatory_options = widgets.VBox([mandatory_label, email_input, seq_file_input, submit])
+mandatory_options = widgets.VBox([mandatory_label, email_input, seq_file_input, submit, clearOutput_button])
 optional_options = widgets.VBox([optional_label, output_file_name,output_dir])
 center_container = widgets.HBox([mandatory_options, optional_options])
 mandatory_options.layout = fixed_width_layout

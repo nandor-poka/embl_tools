@@ -1,6 +1,6 @@
 import core._ui_base as gui
 __name__ = '_module_template'
-gui.service_cmd = 'python3 ../embl_client/dbfetch.py getSupportedStyles' # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.
+gui.service_cmd = 'python3 ../embl_client/dbfetch.py ' # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.
 gui.app_label.value= 'EMBL-Tools DBFetch - Retrieve entries from EMBOSS databases' # TODO replace with real application label text
 
 db_format_style_mapping={
@@ -138,6 +138,7 @@ gui.run_checks = run_checks
 # Modify this method as needed to prepare the command to be executed
 def prepare_command():
     command = gui.service_cmd # add more options as needed for the base command    
+    command += f'fetchData {db_dropdown.value}:{id_text.value} {format_type_dropdown.value} {style_dropdown.value}'
     return command
 gui.prepare_command = prepare_command
 
@@ -162,13 +163,16 @@ db_dropdown =  gui.widgets.Dropdown(
     description='Database',
     style = gui.style
 )
+id_text = gui.widgets.Text(value= '', placeholder='item id (mandatory)', description='Item id (mandatory):',style = gui.style )
 
 mandatory_options =[]
 for widget in gui.mandatory_options.children:
     if not isinstance(widget, gui.widgets.Button):
         mandatory_options.append(widget)
 mandatory_options.append(local_submit)
+mandatory_options.append(gui.clearOutput_button)
 # Use the code below to insert widget just after email field.
+mandatory_options.insert(2, id_text)
 mandatory_options.insert(2, db_dropdown)
 
 
@@ -181,7 +185,7 @@ format_type_dropdown = gui.widgets.Dropdown(
 
 style_dropdown =  gui.widgets.Dropdown(
     options = db_format_style_mapping[db_dropdown.value][format_type_dropdown.value],
-    value= db_format_style_mapping[db_dropdown.value][format_type_dropdown.value][0],
+    value= db_format_style_mapping[db_dropdown.value][format_type_dropdown.value][-1],
     description='Style',
     style = gui.style
 )
@@ -194,7 +198,7 @@ db_dropdown.observe(format_update,names='value')
 
 def style_update(change):
     style_dropdown.options = db_format_style_mapping[db_dropdown.value][change["new"]]
-    style_dropdown.value = list(db_format_style_mapping[db_dropdown.value][change["new"]])[0]
+    style_dropdown.value = list(db_format_style_mapping[db_dropdown.value][change["new"]])[-1]
 
 format_type_dropdown.observe(style_update,names='value')
 

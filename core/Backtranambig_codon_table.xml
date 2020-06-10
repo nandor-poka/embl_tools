@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<parameter>
+  <name>Codon Table</name>
+  <description>Which genetic code table to use. These are kept synchronised with those maintained at the NCBI's Taxonomy Browser. </description>
+  <type>STRING</type>
+  <values>
+    <value>
+      <label>Standard Code</label>
+      <value>0</value>
+      <defaultValue>true</defaultValue>
+    </value>
+    <value>
+      <label>Vertebrate Mitochondrial</label>
+      <value>2</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Yeast Mitochondrial</label>
+      <value>3</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Mold, Protozoan, Coelenterate Mitochondrial and Mycoplasma/Spiroplasma</label>
+      <value>4</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Invertebrate Mitochondrial</label>
+      <value>5</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Ciliate Macronuclear and Dasycladacean</label>
+      <value>6</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Echinoderm Mitochondrial</label>
+      <value>9</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Euplotid Nuclear</label>
+      <value>10</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Bacterial</label>
+      <value>11</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Alternative Yeast Nuclear</label>
+      <value>12</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Ascidian Mitochondrial</label>
+      <value>13</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Flatworm Mitochondrial</label>
+      <value>14</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Blepharisma Macronuclear</label>
+      <value>15</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Chlorophycean Mitochondrial</label>
+      <value>16</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Trematode Mitochondrial</label>
+      <value>21</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Scenedesmus obliquus</label>
+      <value>22</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Thraustochytrium Mitochondrial</label>
+      <value>23</value>
+      <defaultValue>false</defaultValue>
+    </value>
+  </values>
+</parameter>

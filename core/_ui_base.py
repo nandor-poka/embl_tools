@@ -7,6 +7,7 @@ from ipyfilechooser import FileChooser
 
 service_cmd =""
 style = {'description_width': 'initial'}
+default_widget_layout = {'width':'90%'}
 fixed_width_layout = widgets.Layout(width='50%', min_width='50%',max_width='50%')
 
 # Checking if settings file exists and reading contents for default values to use.
@@ -37,7 +38,7 @@ app_label = widgets.Label(value='') # TODO replace with real application label t
 
 # Widgets for mandatory information, starting with predefined label and email input
 mandatory_label = widgets.Label(value='Mandatory options')
-email_input = widgets.Text(value= '' if settings== None else settings['email'], placeholder='email address (mandatory)', description='Email (mandatory):',style = style )
+email_input = widgets.Text(value= '' if settings== None else settings['email'], placeholder='email address (mandatory)', description='Email (mandatory):',style = style, layout = default_widget_layout)
 seq_file_input = FileChooser('./', title = 'Sequence file',style = style, disabled = False)
 seq_file_input.use_dir_icons = True
 
@@ -51,7 +52,7 @@ output = widgets.Output(layout={'border': '1px solid black'})
 
 # Widgets for optional options, add widgets as you need
 optional_label = widgets.Label(value='Extra options')
-output_file_name = widgets.Text(description = 'Save result as: ',style = style, disabled = False)
+output_file_name = widgets.Text(description = 'Save result as: ',style = style, disabled = False, layout=default_widget_layout)
 output_dir = FileChooser( '.' if settings == None else settings['outdir'] , title = 'Save output to',style = style, disabled = False)
 output_dir.default_path = '.'if settings == None else settings['outdir'] 
 with output:

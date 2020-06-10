@@ -13,8 +13,8 @@ fixed_width_layout = widgets.Layout(width='50%', min_width='50%',max_width='50%'
 # Checking if settings file exists and reading contents for default values to use.
 settings = None
 initLog = ''
-if os.path.exists(os.path.dirname(__file__)+'/../settings.json'):
-    with open(os.path.dirname(__file__)+'/../settings.json', 'r') as settingsFile:
+if os.path.exists('/home/biodatahub/private/.embl_tools/settings.json'):
+    with open('/home/biodatahub/private/.embl_tools/settings.json', 'r') as settingsFile:
         settingsData = settingsFile.read()
         settingsFile.close()
         settings = json.loads(settingsData)

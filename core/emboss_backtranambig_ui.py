@@ -1,12 +1,12 @@
 import core._ui_base as gui
 __name__ = 'emboss_backtranambig_ui'
 import xml.etree.ElementTree as ET
-gui.service_cmd = 'python3 ../embl_client/emboss_backtranambig.py' 
+gui.service_cmd = 'python3 ../embl_client/emboss_backtranambig.py'
 gui.app_label.value= 'EMBL-Tools Backtranambig - Back-translate a protein sequence to ambiguous nucleotide sequence.Back-translate a protein sequence to ambiguous nucleotide sequence.'
 codon_table_options = []
 _file_path = gui.os.path.dirname(__file__)
 databases_xml = ET.parse(_file_path+'/../core/Backtranambig_codon_table.xml')
-values = databases_xml.getroot().find('values');
+values = databases_xml.getroot().find('values')
 for option in values:
     codon_table_options.append((option.find('label').text, option.find('value').text))
 

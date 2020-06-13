@@ -1,5 +1,5 @@
 import core._ui_base as gui
-__name__ = 'emboss_dotmatcher'
+__name__ = 'emboss_dotmatcher_ui'
 gui.service_cmd = 'python3 ../embl_client/emboss_dotmatcher.py' # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.
 gui.app_label.value= 'EMBL-Tools  emboss_dotmatcher webservice ' # TODO replace with real application label text
 

@@ -1,7 +1,7 @@
 import core._ui_base as gui
 __name__ = 'cpgplot_ui'
-gui.service_cmd = 'python3 ../embl_client/emboss_cpgplot.py' # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.
-gui.app_label.value= 'EMBL-Tools webservice template gui' # TODO replace with real application label text
+gui.service_cmd = 'python3 ../embl_client/emboss_cpgplot.py'
+gui.app_label.value= 'EMBL-Tools webservice template gui'
 
 # Define more widgets and add them to guimandatory_options  or gui.optional_options
 # Add @gui.output.capture() to methods you want to have their output printed.

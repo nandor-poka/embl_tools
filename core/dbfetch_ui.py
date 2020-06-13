@@ -1,7 +1,7 @@
 import core._ui_base as gui
 __name__ = 'dbfetch_ui'
-gui.service_cmd = 'python3 ../embl_client/dbfetch.py ' # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.
-gui.app_label.value= 'EMBL-Tools DBFetch - Retrieve entries from EMBOSS databases' # TODO replace with real application label text
+gui.service_cmd = 'python3 ../embl_client/dbfetch.py 
+gui.app_label.value= 'EMBL-Tools DBFetch - Retrieve entries from EMBOSS databases'
 
 db_format_style_mapping={
     'chembl':{'default':['default','html','raw'],'fasta':['default','html','raw']},

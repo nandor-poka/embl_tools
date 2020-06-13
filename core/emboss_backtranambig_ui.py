@@ -1,5 +1,5 @@
 import core._ui_base as gui
-__name__ = 'emboss_backtranambig'
+__name__ = 'emboss_backtranambig_ui'
 import xml.etree.ElementTree as ET
 gui.service_cmd = 'python3 ../embl_client/emboss_backtranambig.py' 
 gui.app_label.value= 'EMBL-Tools Backtranambig - Back-translate a protein sequence to ambiguous nucleotide sequence.Back-translate a protein sequence to ambiguous nucleotide sequence.'

@@ -1,6 +1,6 @@
 import core._ui_base as gui
 __name__ = 'dbfetch_ui'
-gui.service_cmd = 'python3 ../embl_client/dbfetch.py 
+gui.service_cmd = 'python3 ../embl_client/dbfetch.py'
 gui.app_label.value= 'EMBL-Tools DBFetch - Retrieve entries from EMBOSS databases'
 
 db_format_style_mapping={

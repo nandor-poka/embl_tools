@@ -1,6 +1,6 @@
 import core._ui_base as gui
 __name__ = '_module_template'
-gui.service_cmd = 'python3 embl_client/service.py' # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.
+gui.service_cmd = gui.os.path.join(gui.__file_path__, '../embl_client/service.py' # TODO replace service.py with real embl client python file name. Path is relative to the ui notebook, not this file.
 gui.app_label.value= 'EMBL-Tools webservice template gui' # TODO replace with real application label text
 
 # Define more widgets and add them to guimandatory_options  or gui.optional_options

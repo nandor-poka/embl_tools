@@ -4,7 +4,9 @@ from IPython.display import display
 import subprocess, re, os, json
 from time import sleep
 from ipyfilechooser import FileChooser
-
+__file_path__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+__user_home__ = os.environ['HOME']
+__settings_file_path__ = os.path.join(__user_home__,'private/.embl_tools/settings.json')
 service_cmd =""
 style = {'description_width': 'initial'}
 default_widget_layout = {'width':'90%'}
@@ -13,14 +15,12 @@ fixed_width_layout = widgets.Layout(width='50%', min_width='50%',max_width='50%'
 # Checking if settings file exists and reading contents for default values to use.
 settings = None
 initLog = ''
-if os.path.exists('/home/biodatahub/private/.embl_tools/settings.json'):
-    with open('/home/biodatahub/private/.embl_tools/settings.json', 'r') as settingsFile:
+if os.path.exists(__settings_file_path__):
+    with open(__settings_file_path__, 'r') as settingsFile:
         settingsData = settingsFile.read()
         settingsFile.close()
         settings = json.loads(settingsData)
     initLog += "Settings loaded.\n"
-    for setting in settings:
-        initLog += setting +': '+settings[setting]+'\n'
     if not os.path.exists(settings['outdir']):
         initLog += 'Default output directory does not exists. Attempting to create it.\n'
         try:
@@ -30,7 +30,7 @@ if os.path.exists('/home/biodatahub/private/.embl_tools/settings.json'):
             print (type(exception), exception)
 else:
     initLog += 'No settings file found.\n'
-    initLog += os.path.dirname(__file__)+'../settings.json'
+    initLog += os.path.join(os.environ['HOME'],'private/.embl_tools/settings.json')
 
 
 #Defining UI elements / widgets
@@ -69,17 +69,19 @@ def submit_job(button):
     
     command = prepare_command()
     print('Executing: ', command)
-    proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+    """Command should be a list of arguments the first element being the file to execute"""
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE,stderr=subprocess.STDOUT, shell=False)
     (out, err) = proc.communicate()
-    jobid = out.decode('UTF-8').split('\n')[0]
-    print('Jobid: '+jobid)
-    proc = subprocess.Popen([service_cmd + ' --status --jobid '+ jobid], stdout=subprocess.PIPE, shell=True)
+    jobid =out.decode('UTF-8').split('\n')[0]
+    print(f'Jobid: {jobid}')
+    proc = subprocess.Popen([service_cmd, '--status', '--jobid', jobid], stdout=subprocess.PIPE, shell=False)
     (out, err) = proc.communicate()
     status = out.decode('UTF-8').split('\n')[1]
-        
+    print(status)
+    
     while status == 'RUNNING':
         sleep(5)
-        proc = subprocess.Popen([service_cmd + ' --status --jobid '+ jobid], stdout=subprocess.PIPE, shell=True)
+        proc = subprocess.Popen([service_cmd, '--status', '--jobid', jobid], stdout=subprocess.PIPE, shell=False)
         (out, err) = proc.communicate()
         status = out.decode('UTF-8').split('\n')[1]
         print (status)
@@ -127,14 +129,15 @@ def append_outfile(cmd, jobid):
         outfile_str += '/'+ output_file_name.value
     else:
         outfile_str += '/'+ jobid
-        
-    return command + ' --outfile '+ outfile_str
+    command.append('--outfile')
+    command.append(outfile_str)
+    return command
 
 
 def fetch_result(jobid):
-    command = service_cmd + ' --polljob --jobid '+ jobid
+    command = [service_cmd,  '--polljob', '--jobid', jobid]
     command = append_outfile(command, jobid)
-    proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE, shell=False)
     (out, err) = proc.communicate()
     print (out.decode('UTF-8'))
 

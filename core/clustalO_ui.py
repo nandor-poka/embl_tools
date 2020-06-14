@@ -1,6 +1,6 @@
 import core._ui_base as gui
 __name__ = 'clustalO_ui'
-gui.service_cmd = 'python3 ../embl_client/clustalo.py' 
+gui.service_cmd = gui.os.path.join(gui.__file_path__,'../embl_client/clustalo.py')
 gui.app_label.value = 'EMBL-ToolsClustalO webservice'
 
 # Define more widgets and add them to guimandatory_options  or gui.optional_options
@@ -24,8 +24,7 @@ gui.run_checks = run_checks
 
 
 def prepare_command():
-    command = gui.service_cmd + ' --email '+ gui.email_input.value + ' --stype ' +sequence_type.value + ' --sequence ' + gui.seq_file_input.selected  
-    command += ' --asyncjob'
+    command = [gui.service_cmd,'--email', gui.email_input.value, '--stype', sequence_type.value, '--sequence', gui.seq_file_input.selected,  '--asyncjob']
     return command
 gui.prepare_command = prepare_command
 

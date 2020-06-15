@@ -3,7 +3,7 @@ __name__ = 'ncbiBlast_ui'
 import xml.etree.ElementTree as ET
 
 # 'Global' variables used later
-gui.service_cmd ="python3 ../embl_client/ncbiblast.py"
+gui.service_cmd = gui.os.path.join(gui.__file_path__,"../embl_client/ncbiblast.py")
 blast_hints = { 'blastp': 'Mathces a protein query to a protein database.',
                 'blastn': 'Matches a nucleotide query to a nucleotide query',
                 'blastx':  'Compares a DNA query to a protein database, by translating the query sequence in the 6 possible frames,\n' 
@@ -15,7 +15,7 @@ database_options = []
 database_hints = {}
 _file_path = gui.os.path.dirname(__file__)
 databases_xml = ET.parse(_file_path+'/../core/ncbiBlast_databases.xml')
-values = databases_xml.getroot().find('values');
+values = databases_xml.getroot().find('values')
 for db in values:
     database_options.append((db.find('value').text, db.find('value').text))
     database_hints[db.find('value').text]=db.find('label').text 
@@ -64,22 +64,21 @@ gui.run_checks = run_checks
 
 # modify as needed.
 def prepare_command():
-    command = gui.service_cmd + ' --email ' + gui.email_input.value + ' --program '+ BLAST_program.value  + ' --stype ' + sequence_type.value + ' --sequence ' + gui.seq_file_input.selected + ' --database ' + database_dropdown.value 
-    command += ' --asyncjob'
+    command = [gui.service_cmd, '--email', gui.email_input.value, '--program', BLAST_program.value,
+    '--stype', sequence_type.value,'--sequence', gui.seq_file_input.selected, '--database',database_dropdown.value, '--asyncjob']
     return command
 gui.prepare_command = prepare_command
 
 
 def blast_hint(change):
-    BLAST_program_hint.value = value= '<style>p{word-wrap: break-word}</style> <p>BLAST program description: '+blast_hints[change['new']]+'</p>'
+    BLAST_program_hint.value = '<style>p{word-wrap: break-word}</style> <p>BLAST program description: '+blast_hints[change['new']]+'</p>'
     
 BLAST_program.observe(blast_hint, names='value')
 
 def database_hint_change(change):
-    database_hint.value = value= '<style>p{word-wrap: break-word}</style> <p>Database description: '+database_hints[change['new']]+'</p>'
+    database_hint.value = '<style>p{word-wrap: break-word}</style> <p>Database description: '+database_hints[change['new']]+'</p>'
     
 database_dropdown.observe(database_hint_change, names='value')
-
 
 mandatory_options =[]
 for widget in gui.mandatory_options.children:

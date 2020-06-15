@@ -1,7 +1,7 @@
 import core._ui_base as gui
 __name__ = 'emboss_backtranambig_ui'
 import xml.etree.ElementTree as ET
-gui.service_cmd = 'python3 ../embl_client/emboss_backtranambig.py'
+gui.service_cmd =  gui.os.path.join(gui.__file_path__,'../embl_client/emboss_backtranambig.py')
 gui.app_label.value= 'EMBL-Tools Backtranambig - Back-translate a protein sequence to ambiguous nucleotide sequence.Back-translate a protein sequence to ambiguous nucleotide sequence.'
 codon_table_options = []
 _file_path = gui.os.path.dirname(__file__)
@@ -72,8 +72,7 @@ def prepare_command():
     else:
         write_tmp_seq_file()
         sequence = '/tmp/temp_seq_file'
-    command = f'''{gui.service_cmd} --email {gui.email_input.value} --sequence {sequence} --codontable {codon_table_dropdown.value}'''# add more options as needed for the base command    
-    command += ' --asyncjob'
+    command = [gui.service_cmd, '--email', gui.email_input.value. '--sequence', sequence, '--codontable', codon_table_dropdown.value, '--asyncjob']
     return command
 gui.prepare_command = prepare_command
 

@@ -67,9 +67,9 @@ def submit_job(button):
         return
     # add more checks here for early returns.
     
+    #Command should be a list of arguments the first element being the file to execute.
     command = prepare_command()
     print('Executing: ', command)
-    """Command should be a list of arguments the first element being the file to execute"""
     proc = subprocess.Popen(command, stdout=subprocess.PIPE,stderr=subprocess.STDOUT, shell=False)
     (out, err) = proc.communicate()
     jobid =out.decode('UTF-8').split('\n')[0]
@@ -114,12 +114,12 @@ def clear_output(button):
 
 # Should be overwritten by module.
 def prepare_command():
-    return command
+    return []
 
 # Util method to append correct outfile param
 def append_outfile(cmd, jobid):
     command = cmd
-    outfile_str = None;
+    outfile_str = None
     if output_dir.selected_path:
         outfile_str = output_dir.selected_path
     else:

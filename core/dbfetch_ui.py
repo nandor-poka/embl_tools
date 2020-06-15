@@ -1,6 +1,6 @@
 import core._ui_base as gui
 __name__ = 'dbfetch_ui'
-gui.service_cmd = 'python3 ../embl_client/dbfetch.py'
+gui.service_cmd = gui.os.path.join(gui.__file_path__,'../embl_client/dbfetch.py')
 gui.app_label.value= 'EMBL-Tools DBFetch - Retrieve entries from EMBOSS databases'
 
 db_format_style_mapping={
@@ -137,25 +137,9 @@ gui.run_checks = run_checks
 
 # Modify this method as needed to prepare the command to be executed
 def prepare_command():
-    command = gui.service_cmd # add more options as needed for the base command    
-    command += f'fetchData {db_dropdown.value}:{id_text.value} {format_type_dropdown.value} {style_dropdown.value}'
+    command = [gui.service_cmd, 'fetchData', f'{db_dropdown.value}:{id_text.value}', format_type_dropdown.value, format_type_dropdown.value, '--asyncjob']
     return command
 gui.prepare_command = prepare_command
-
-@gui.output.capture()
-def local_submit_job(button):
-    if not run_checks():
-        return
-    command = prepare_command()
-    print('Executing: ', command)
-    proc = gui.subprocess.Popen(command, stdout=gui.subprocess.PIPE, shell=True)
-    (out, err) = proc.communicate()
-    for line in out.decode('UTF-8').split('\n'):
-        print(line)
-
-
-local_submit = gui.widgets.Button(description='Fetch',disabled=False, button_style='', tooltip='Fetch',style = gui.style, icon='check')
-local_submit.on_click(local_submit_job)
 
 db_dropdown =  gui.widgets.Dropdown(
     options = list(db_format_style_mapping),
@@ -167,9 +151,7 @@ id_text = gui.widgets.Text(value= '', placeholder='item id (mandatory)', descrip
 
 mandatory_options =[]
 for widget in gui.mandatory_options.children:
-    if not isinstance(widget, gui.widgets.Button):
-        mandatory_options.append(widget)
-mandatory_options.append(local_submit)
+    mandatory_options.append(widget)
 mandatory_options.append(gui.clearOutput_button)
 # Use the code below to insert widget just after email field.
 mandatory_options.insert(2, id_text)

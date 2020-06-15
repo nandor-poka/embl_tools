@@ -4,8 +4,7 @@ import xml.etree.ElementTree as ET
 gui.service_cmd =  gui.os.path.join(gui.__file_path__,'../embl_client/emboss_backtranambig.py')
 gui.app_label.value= 'EMBL-Tools Backtranambig - Back-translate a protein sequence to ambiguous nucleotide sequence.Back-translate a protein sequence to ambiguous nucleotide sequence.'
 codon_table_options = []
-_file_path = gui.os.path.dirname(__file__)
-databases_xml = ET.parse(_file_path+'/../core/Backtranambig_codon_table.xml')
+databases_xml = ET.parse(gui.__file_path__+'/../core/emboss_backtranambig_codon_table.xml')
 values = databases_xml.getroot().find('values')
 for option in values:
     codon_table_options.append((option.find('label').text, option.find('value').text))
@@ -72,7 +71,7 @@ def prepare_command():
     else:
         write_tmp_seq_file()
         sequence = '/tmp/temp_seq_file'
-    command = [gui.service_cmd, '--email', gui.email_input.value. '--sequence', sequence, '--codontable', codon_table_dropdown.value, '--asyncjob']
+    command = [gui.service_cmd, '--email', gui.email_input.value, '--sequence', sequence, '--codontable', codon_table_dropdown.value, '--asyncjob']
     return command
 gui.prepare_command = prepare_command
 

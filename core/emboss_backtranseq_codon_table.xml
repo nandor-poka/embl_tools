@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<parameter>
+  <name>Codon</name>
+  <description>Codon usage table name </description>
+  <type>STRING</type>
+  <values>
+    <value>
+      <label>Homo sapiens</label>
+      <value>Ehuman.cut</value>
+      <defaultValue>true</defaultValue>
+    </value>
+    <value>
+      <label>Acinetobacter calcoaceticus</label>
+      <value>Eacica.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Agrobacterium tumefaciens str C58</label>
+      <value>Eagrtu.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Anabaena sp</label>
+      <value>Eanasp.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Arabidopsis thaliana</label>
+      <value>Earath.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Azotobacter vinelandii</label>
+      <value>Eazovi.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Bacillus megaterium</label>
+      <value>Ebacme.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Geobacillus stearothermophilus</label>
+      <value>Ebacst.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Bacillus subtilis</label>
+      <value>Ebacsu.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Bacillus subtilis (high)</label>
+      <value>Ebacsu_high.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Bombyx mori (silkmoth)</label>
+      <value>Ebommo.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Bos taurus</label>
+      <value>Ebovin.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Bacteriophage phi-X174</label>
+      <value>Ebpphx.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Bradyrhizobium japonicum USDA 110</label>
+      <value>Ebraja.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Brassica napus (rape)</label>
+      <value>Ebrana.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Brachydanio rerio (zebrafish)</label>
+      <value>Ebrare.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Caenorhabditis elegans (nematode)</label>
+      <value>Ecaeel.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Candida albicans</label>
+      <value>Ecanal.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Canis familiaris (dog)</label>
+      <value>Ecanfa.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Caulobacter crescentus CB15</label>
+      <value>Ecaucr.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Gallus gallus (chicken)</label>
+      <value>Echick.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Chlamydomonas reinhardtii</label>
+      <value>Echlre.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Chlamydia trachomatis D UW-3 CX</label>
+      <value>Echltr.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Clostridium acetobutylicum ATCC 824</label>
+      <value>Ecloab.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Cricetulus greseus (hamster)</label>
+      <value>Ecrigr.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Cyanophora paradoxa</label>
+      <value>Ecyapa.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Dictyostelium discoideum</label>
+      <value>Edicdi.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Dictyostelium discoideum (high)</label>
+      <value>Edicdi_high.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Drosophila melanogaster</label>
+      <value>Edrome.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Drosophila melanogaster (high)</label>
+      <value>Edrome_high.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Escherichia coli K12</label>
+      <value>Eecoli.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Escherichia coli K12 (high)</label>
+      <value>Eecoli_high.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Emericella nidulans</label>
+      <value>Eemeni.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Emericella nidulans mitochondrion</label>
+      <value>Eemeni_mit.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Emericella nidulans highly expressed</label>
+      <value>Eemeni_high.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Erwinia carotovora subsp atroseptica SCRI1043</label>
+      <value>Eerwct.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Haemophilus influenzae Rd KW20</label>
+      <value>Ehaein.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Haloarcula marismortui ATCC 43049 (Halobacterium marismortui)</label>
+      <value>Ehalma.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Halobacterium salinarum NRC-1 (Halobacterium halobium)</label>
+      <value>Ehalsa.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Hordeum vulgare subsp  vulgare (Barley)</label>
+      <value>Ehorvu.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Klebsiella pneumoniae</label>
+      <value>Eklepn.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Kluyveromyces lactis NRRL Y-1140</label>
+      <value>Eklula.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Lactococcus lactis subsp  lactis Il1403 L. delbrueckii subsp lactis</label>
+      <value>Elacdl.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Lycopersicon esculentum (tomato)</label>
+      <value>Elyces.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Macaca fascicularis</label>
+      <value>Emacfa.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Zea mays</label>
+      <value>Emaize.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Zea mays chloroplast</label>
+      <value>Emaize_chl.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Mammalian species (high)</label>
+      <value>Emammal_high.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Manduca sexta</label>
+      <value>Emanse.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Marchantia polymorpha chloroplast (liverwort)</label>
+      <value>Emarpo_chl.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Medicago sativa</label>
+      <value>Emedsa.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Methanothermobacter thermautotrophicus str  Delta H</label>
+      <value>Emetth.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Mus musculus</label>
+      <value>Emouse.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Mycobacterium tuberculosis H37Rv</label>
+      <value>Emyctu.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Neisseria gonorrhoeae</label>
+      <value>Eneigo.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Neurospora crassa</label>
+      <value>Eneucr.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Oncorhynchus mykiss (rainbow trout)</label>
+      <value>Eoncmy.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Oryza sativa (rice)</label>
+      <value>Eorysa.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Oryza sativa chloroplast (rice)</label>
+      <value>Eorysa_chl.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Pisum sativum (pea)</label>
+      <value>Epea.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Petunia x hybrida</label>
+      <value>Epethy.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Phaseolus vulgaris</label>
+      <value>Ephavu.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Sus scrofa (pig)</label>
+      <value>Epig.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Plasmodium falciparum 3D7</label>
+      <value>Eplafa.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Proteus vulgaris</label>
+      <value>Eprovu.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Pseudomonas aeruginosa PAO1</label>
+      <value>Epseae.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Pseudomonas putida KT2440</label>
+      <value>Epsepu.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Pseudomonas syringae pv  tomato str  DC3000</label>
+      <value>Epsesm.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Oryctolagus cuniculus (rabbit)</label>
+      <value>Erabit.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Rattus norvegicus</label>
+      <value>Erat.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Rhizobium leguminosarum</label>
+      <value>Erhile.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Sinorhizobium meliloti 1021</label>
+      <value>Erhime.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Rhodobacter capsulatus</label>
+      <value>Erhoca.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Rhodobacter sphaeroides</label>
+      <value>Erhosh.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Salmo salar (Atlantic salmon)</label>
+      <value>Esalsa.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Salmonella typhimurium LT2</label>
+      <value>Esalty.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Schistosoma mansoni</label>
+      <value>Eschma.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Schizosaccharomyces pombe</label>
+      <value>Eschpo.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Schizosaccharomyces pombe (CAI equivalent)</label>
+      <value>Eschpo_cai.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Schizosaccharomyces pombe (high)</label>
+      <value>Eschpo_high.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Serratia marcescens</label>
+      <value>Eserma.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Ovis aries (sheep)</label>
+      <value>Esheep.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Solanum tuberosum (potato)</label>
+      <value>Esoltu.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Glycine max (soybean)</label>
+      <value>Esoybn.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Spinacia oleracea (spinach)</label>
+      <value>Espiol.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Staphylococcus aureus</label>
+      <value>Estaau.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Streptomyces coelicolor A3 2</label>
+      <value>Estrco.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Streptococcus mutans UA159</label>
+      <value>Estrmu.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Streptococcus pneumoniae R6</label>
+      <value>Estrpn.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Strongylocentrotus purpuratus (sea urchin)</label>
+      <value>Estrpu.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Simian Virus 40</label>
+      <value>Esv40.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Synechococcus sp  WH 8102</label>
+      <value>Esynco.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Synechocystis sp  PCC 6803</label>
+      <value>Esyncy.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Tetrahymena thermophila</label>
+      <value>Etetth.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Thermus thermophilus HB8</label>
+      <value>Etheth.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Nicotiana tabacum (tobacco)</label>
+      <value>Etobac.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Nicotiana tabacum chloroplast (tobacco)</label>
+      <value>Etobac_chl.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Trypanosoma brucei</label>
+      <value>Etrybr.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Trypanosoma cruzi</label>
+      <value>Etrycr.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Vibrio cholerae O1 biovar eltor str  N16961</label>
+      <value>Evibch.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Triticum aestivum (wheat)</label>
+      <value>Ewheat.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Xenopus laevis</label>
+      <value>Exenla.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Saccharomyces cerevisiae</label>
+      <value>Eyeast.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Saccharomyces cerevisiae original CAI set</label>
+      <value>Eyeast_cai.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Saccharomyces cerevisiae (high)</label>
+      <value>Eyeast_high.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Saccharomyces cerevisiae mitochondrion</label>
+      <value>Eyeast_mit.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Yersinia enterocolitica</label>
+      <value>Eyeren.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+    <value>
+      <label>Yersinia pestis</label>
+      <value>Eyerpe.cut</value>
+      <defaultValue>false</defaultValue>
+    </value>
+  </values>
+</parameter>
